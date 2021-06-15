@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import { TradeClipboard } from './TradeClipboard';
-import { Img } from '../../components/common/Img';
 
 export const MainPage: FunctionComponent = () => {
 	return (

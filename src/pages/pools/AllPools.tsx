@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from 'react';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '../../stores';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import * as querystring from 'querystring';
 import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import * as querystring from 'querystring';
+import React, { FunctionComponent } from 'react';
 import { PoolsPerPage } from '../../config';
+import { useStore } from '../../stores';
 
 const widths = ['10%', '60%', '30%'];
 export const AllPools: FunctionComponent = () => {
@@ -19,8 +20,7 @@ export const AllPools: FunctionComponent = () => {
 };
 
 const PoolsTable: FunctionComponent = observer(() => {
-	const location = useLocation();
-	const params = querystring.parse(location.search.replace('?', '')) as {
+	const params = querystring.parse(window?.location?.search?.replace('?', '') ?? '') as {
 		page?: string;
 	};
 	const page = params.page && !Number.isNaN(parseInt(params.page)) ? parseInt(params.page) : 1;
@@ -100,7 +100,7 @@ const TablePoolElement: FunctionComponent<{
 	poolRatios: string;
 	totalValueLocked: string;
 }> = ({ id, poolRatios, totalValueLocked }) => {
-	const history = useHistory();
+	const router = useRouter();
 
 	return (
 		<tr
@@ -108,7 +108,7 @@ const TablePoolElement: FunctionComponent<{
 			onClick={e => {
 				e.preventDefault();
 
-				history.push(`/pool/${id}`);
+				router.push(`/pool/${id}`);
 			}}>
 			<td style={{ width: `${widths[0]}` }} className="flex items-center text-white-disabled">
 				<p>{id}</p>
@@ -131,7 +131,7 @@ const TablePagination: FunctionComponent<{
 
 	const numPages = queries.osmosis.queryGammNumPools.computeNumPages(PoolsPerPage);
 
-	const history = useHistory();
+	const router = useRouter();
 
 	const pageRender = [];
 
@@ -139,13 +139,13 @@ const TablePagination: FunctionComponent<{
 		const page = i + 1;
 
 		pageRender.push(
-			<Link
-				key={page.toString()}
-				to={`/pools?page=${page}`}
-				className={clsx('flex items-center rounded-md h-9 px-3 text-sm text-secondary-200', {
-					'border border-secondary-200': page === propPage,
-				})}>
-				<p>{page}</p>
+			<Link key={page.toString()} href={`/pools?page=${page}`}>
+				<span
+					className={clsx('flex items-center rounded-md h-9 px-3 text-sm text-secondary-200', {
+						'border border-secondary-200': page === propPage,
+					})}>
+					<p>{page}</p>
+				</span>
 			</Link>
 		);
 	}
@@ -162,7 +162,7 @@ const TablePagination: FunctionComponent<{
 					onClick={e => {
 						e.preventDefault();
 
-						history.push(`/pools?page=${propPage - 1}`);
+						router.push(`/pools?page=${propPage - 1}`);
 					}}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +190,7 @@ const TablePagination: FunctionComponent<{
 					onClick={e => {
 						e.preventDefault();
 
-						history.push(`/pools?page=${propPage + 1}`);
+						router.push(`/pools?page=${propPage + 1}`);
 					}}>
 					<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24">
 						<g>

@@ -1,23 +1,18 @@
-import React, { FunctionComponent } from 'react';
 import cn from 'clsx';
-import { Container } from '../../containers';
-import { TCardTypes } from '../../../interfaces';
-import map from 'lodash-es/map';
-import { LAYOUT, TSIDEBAR_ITEM, TSIDEBAR_SELECTED_CHECK } from '../../../constants';
-import { mapKeyValues } from '../../../utils/scripts';
-import { SidebarItem } from './SidebarItem';
-import { Img } from '../../common/Img';
-import { useHistory, withRouter } from 'react-router-dom';
-import { History } from 'history';
-import { SidebarBottom } from './SidebarBottom';
 import isArray from 'lodash-es/isArray';
+import { useRouter } from 'next/router';
+import React, { FunctionComponent } from 'react';
+import { LAYOUT, TSIDEBAR_ITEM, TSIDEBAR_SELECTED_CHECK } from '../../../constants';
+import { TCardTypes } from '../../../interfaces';
+import { mapKeyValues } from '../../../utils/scripts';
+import { Img } from '../../common/Img';
+import { Container } from '../../containers';
+import { SidebarBottom } from './SidebarBottom';
+import { SidebarItem } from './SidebarItem';
 
-interface ChildComponentProps {
-	history: History;
-	/* other props for ChildComponent */
-}
-const SideBar: FunctionComponent<ChildComponentProps> = ({ history }) => {
-	const pathname = history?.location?.pathname;
+export const Sidebar = () => {
+	const router = useRouter();
+	const pathname = router.pathname;
 
 	const [openSidebar, setOpenSidebar] = React.useState<boolean>(true);
 	return (
@@ -70,8 +65,6 @@ const pathnameCheck = (str: string, routes: TSIDEBAR_SELECTED_CHECK) => {
 	return false;
 };
 
-export const Sidebar = withRouter(SideBar);
-
 const LogoArea: FunctionComponent<TLogoArea> = ({ openSidebar }) => {
 	return (
 		<div className="flex items-center">
@@ -84,6 +77,7 @@ const LogoArea: FunctionComponent<TLogoArea> = ({ openSidebar }) => {
 		</div>
 	);
 };
+
 interface TLogoArea {
 	openSidebar: boolean;
 }

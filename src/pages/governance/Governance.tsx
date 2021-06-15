@@ -1,20 +1,17 @@
-import React, { FunctionComponent, ReactNode } from 'react';
-import cn from 'clsx';
-import times from 'lodash-es/times';
-import map from 'lodash-es/map';
-import keys from 'lodash-es/keys';
-import each from 'lodash-es/each';
-import capitalize from 'lodash-es/capitalize';
-import { Img } from '../../components/common/Img';
-import { formatNumber, applyOptionalDecimal } from '../../utils/format';
-import { divide, multiply } from '../../utils/Big';
 import { PointOptionsObject, SeriesPieOptions, TooltipOptions } from 'highcharts';
+import capitalize from 'lodash-es/capitalize';
 import cloneDeep from 'lodash-es/cloneDeep';
+import each from 'lodash-es/each';
+import keys from 'lodash-es/keys';
+import map from 'lodash-es/map';
+import times from 'lodash-es/times';
+import { useRouter } from 'next/router';
+import React, { FunctionComponent } from 'react';
+import { Img } from '../../components/common/Img';
 import { HIGHCHART_GRADIENTS, HIGHCHART_LEGEND_GRADIENTS, PieChart } from '../../components/common/PieChart';
-import { useHistory } from 'react-router-dom';
 import { VoteDialog } from '../../dialogs/Vote';
+import { divide, multiply } from '../../utils/Big';
 
-const ROW_HEIGHT = 180;
 export const GovernanceTab: FunctionComponent = () => {
 	const governanceData: IProposalState[] = times(3, i => ({
 		index: i + 10,
@@ -63,6 +60,7 @@ export const GovernanceTab: FunctionComponent = () => {
 };
 
 export type TVote = 'yes' | 'no' | 'noWithVeto' | 'abstain';
+
 export interface IProposalState {
 	index: number;
 	title: string;
@@ -84,7 +82,7 @@ const GovernanceRow: FunctionComponent<{ data: IProposalState; height: number; o
 	height,
 	openModal,
 }) => {
-	const history = useHistory();
+	const router = useRouter();
 	const [series, setSeries] = React.useState<SeriesPieOptions[]>([]);
 
 	React.useEffect(() => {
@@ -139,7 +137,7 @@ const GovernanceRow: FunctionComponent<{ data: IProposalState; height: number; o
 						</LabelValue>
 					</div>
 					<button
-						onClick={() => history.push(`/governance/${data.index}`)}
+						onClick={() => router.push(`/governance/${data.index}`)}
 						className="mt-4 flex items-center hover:opacity-75 cursor-pointer">
 						<p className="text-secondary-200">Details</p>
 						<Img src={'/public/assets/Icons/Right.svg'} />

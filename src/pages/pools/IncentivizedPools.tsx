@@ -1,11 +1,10 @@
-import React, { FunctionComponent } from 'react';
-import cn from 'clsx';
-import { Img } from '../../components/common/Img';
-import { useHistory } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '../../stores';
 import { AppCurrency } from '@keplr-wallet/types';
-import { Dec } from '@keplr-wallet/unit';
+import cn from 'clsx';
+import { observer } from 'mobx-react-lite';
+import { useRouter } from 'next/router';
+import React, { FunctionComponent } from 'react';
+import { Img } from '../../components/common/Img';
+import { useStore } from '../../stores';
 
 const bgArray = [
 	'bg-gradients-socialLive',
@@ -141,7 +140,7 @@ const MyPoolCard: FunctionComponent<MyPoolCardProps> = ({
 	myLockedAmount,
 	tokens,
 }) => {
-	const history = useHistory();
+	const router = useRouter();
 
 	return (
 		<li
@@ -149,7 +148,7 @@ const MyPoolCard: FunctionComponent<MyPoolCardProps> = ({
 			onClick={e => {
 				e.preventDefault();
 
-				history.push(`/pool/${poolId}`);
+				router.push(`/pool/${poolId}`);
 			}}>
 			<section className="flex mb-4">
 				<figure
@@ -225,7 +224,7 @@ interface PoolCardProps {
 }
 
 const PoolCard: FunctionComponent<PoolCardProps> = ({ poolId, apy, liquidity, tokens }) => {
-	const history = useHistory();
+	const router = useRouter();
 
 	return (
 		<li
@@ -233,7 +232,7 @@ const PoolCard: FunctionComponent<PoolCardProps> = ({ poolId, apy, liquidity, to
 			onClick={e => {
 				e.preventDefault();
 
-				history.push(`/pool/${poolId}`);
+				router.push(`/pool/${poolId}`);
 			}}>
 			<section className="flex mb-4">
 				<figure

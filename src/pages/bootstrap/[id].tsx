@@ -1,32 +1,36 @@
-import React, { FunctionComponent } from 'react';
 import cn from 'clsx';
-import { observer } from 'mobx-react-lite';
-import { AssetsOverview } from '../assets/AssetsOverview';
 import moment from 'dayjs';
-import { ITokenSynthesis } from './SynthesisList';
-import { useHistory, useRouteMatch } from 'react-router-dom';
 import times from 'lodash-es/times';
-import { MISC } from '../../constants';
+import { observer } from 'mobx-react-lite';
+import { useRouter } from 'next/router';
+import React, { FunctionComponent } from 'react';
 import { Img } from '../../components/common/Img';
+import { MISC } from '../../constants';
 import { formatNumber } from '../../utils/format';
+import { AssetsOverview } from '../assets/AssetsOverview';
+import { ITokenSynthesis } from './SynthesisList';
 
 interface ISynthesisState {
 	weight: number[];
 	amount: number[];
 }
 
+interface QueryParams {
+	id?: string;
+}
+
 export const BootstrapDetails: FunctionComponent = observer(() => {
-	const history = useHistory();
-	const match = useRouteMatch<{
-		id: string;
-	}>();
-	const poolNum = match.params?.id;
+	const router = useRouter();
+	const queryParams: QueryParams = router.query;
+	const poolNum = queryParams.id;
 
 	React.useEffect(() => {
-		if (isNaN(Number(poolNum))) return history.push('/bootstrap');
+		if (isNaN(Number(poolNum))) {
+			router.push('/bootstrap');
+		}
 
 		// TODO : if bootstrap poolNum not found, display not found
-	}, [poolNum, history]);
+	}, [poolNum, router]);
 
 	// TODO : @Thunnini I don't know why the title is LBP-3
 	const title = 'LBP-3';
@@ -103,6 +107,7 @@ interface IStatItem {
 	amount: number;
 	channelNum: number;
 }
+
 const PoolStatItem: FunctionComponent<{ data: IStatItem }> = ({ data }) => {
 	return (
 		<li className="bg-card rounded-2xl px-7.5 py-6">

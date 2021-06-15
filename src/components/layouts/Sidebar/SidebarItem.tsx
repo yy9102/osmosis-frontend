@@ -1,16 +1,14 @@
-import React, { FunctionComponent } from 'react';
 import cn from 'clsx';
-import { Img } from '../../common/Img';
+import Link from 'next/link';
+import React, { FunctionComponent } from 'react';
 import { TSIDEBAR_ITEM } from '../../../constants';
-import { NavLink } from 'react-router-dom';
+import { Img } from '../../common/Img';
 
 const NavLinkFallback: FunctionComponent<{ sidebarItem: TSIDEBAR_ITEM }> = ({ sidebarItem, children }) => {
 	return (
 		<React.Fragment>
 			{sidebarItem.ROUTE ? (
-				<NavLink exact to={sidebarItem.ROUTE}>
-					{children}
-				</NavLink>
+				<Link href={sidebarItem.ROUTE}>{children}</Link>
 			) : (
 				<a href={sidebarItem.LINK} target="_blank" rel="noreferrer">
 					{children}
@@ -54,6 +52,7 @@ export const SidebarItem: FunctionComponent<TSidebarItem> = ({ sidebarItem, open
 		</NavLinkFallback>
 	);
 };
+
 interface TSidebarItem {
 	selected?: boolean;
 	openSidebar: boolean;

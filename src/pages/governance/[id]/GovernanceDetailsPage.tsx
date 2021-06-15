@@ -1,7 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import cn from 'clsx';
 import { observer } from 'mobx-react-lite';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import React, { FunctionComponent } from 'react';
 import { TVote } from '../Governance';
 import { GovernanceDetailsOverview } from './DetailsOverview';
 import { VotingTally } from './VotingTally';
@@ -22,21 +21,23 @@ export interface IProposal {
 	voteResults: Record<TVote, number>;
 }
 
+interface QueryParams {
+	id?: string;
+}
+
 export const GovernanceDetailsPage: FunctionComponent = observer(() => {
-	const history = useHistory();
-	const match = useRouteMatch<{
-		id: string;
-	}>();
-	const id = match.params?.id;
+	const router = useRouter();
+	const queryParams: QueryParams = router.query;
 
 	React.useEffect(() => {
-		if (isNaN(Number(id))) return history.push('/governance');
-
+		if (isNaN(Number(queryParams.id))) {
+			router.push('/governance');
+		}
 		// TODO : if proposal not found, display not found
-	}, [id, history]);
+	}, [queryParams.id, router]);
 
 	const proposal = {
-		id: Number(id),
+		id: Number(queryParams.id),
 		title: 'Parameter change: lower minimum proposal deposit amount',
 		status: 'Voting Period',
 		proposalType: 'Update Pool Incentives',

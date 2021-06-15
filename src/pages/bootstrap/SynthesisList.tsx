@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 import moment from 'dayjs';
@@ -6,7 +7,6 @@ import map from 'lodash-es/map';
 import cn from 'clsx';
 import { MISC } from '../../constants';
 import { Img } from '../../components/common/Img';
-import { useHistory } from 'react-router-dom';
 
 moment.extend(utc);
 
@@ -61,7 +61,7 @@ export const SynthesisList: FunctionComponent = observer(() => {
 });
 
 const SynthesisItem: FunctionComponent<{ data: ITokenSynthesis; index: number }> = ({ data, index }) => {
-	const history = useHistory();
+	const router = useRouter();
 	return (
 		<li className="w-full rounded-2xl p-7.5 bg-card">
 			<section className="flex mb-5">
@@ -120,7 +120,7 @@ const SynthesisItem: FunctionComponent<{ data: ITokenSynthesis; index: number }>
 						/>
 					</ul>
 					<button
-						onClick={() => history.push(`/bootstrap/${data.poolNum}`)}
+						onClick={() => router.push(`/bootstrap/${data.poolNum}`)}
 						className="flex items-center hover:opacity-75 cursor-pointer">
 						<p className="text-secondary-200">More Info</p>
 						<Img src={'/public/assets/Icons/Right.svg'} />
