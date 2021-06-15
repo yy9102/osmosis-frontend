@@ -1,16 +1,24 @@
-import { CoinGeckoPriceStore, getKeplrFromWindow, IBCCurrencyRegsitrar, QueriesStore } from '@keplr-wallet/stores';
-import { AccountStore } from '@keplr-wallet/stores';
 import { DenomHelper, IndexedDBKVStore } from '@keplr-wallet/common';
-import { ChainStore } from './chain';
+import {
+	AccountStore,
+	ChainInfoInner,
+	getKeplrFromWindow,
+	IBCCurrencyRegsitrar,
+	QueriesStore,
+} from '@keplr-wallet/stores';
 import { AppCurrency, ChainInfo } from '@keplr-wallet/types';
+import { enableStaticRendering } from 'mobx-react-lite';
 import { EmbedChainInfos, IBCAssetInfos } from '../config';
-import { QueriesWithCosmosAndOsmosis } from './osmosis/query';
-import { AccountWithCosmosAndOsmosis } from './osmosis/account';
+import { ChainStore } from './chain';
 import { LayoutStore } from './layout';
-import { GammSwapManager } from './osmosis/swap';
+import { AccountWithCosmosAndOsmosis } from './osmosis/account';
 import { LPCurrencyRegistrar } from './osmosis/currency-registrar';
-import { ChainInfoInner } from '@keplr-wallet/stores';
+import { QueriesWithCosmosAndOsmosis } from './osmosis/query';
+import { GammSwapManager } from './osmosis/swap';
 import { PoolIntermediatePriceStore } from './price';
+
+const isServer = typeof window === 'undefined';
+enableStaticRendering(isServer);
 
 export class RootStore {
 	public readonly chainStore: ChainStore;
@@ -19,11 +27,9 @@ export class RootStore {
 	public readonly priceStore: PoolIntermediatePriceStore;
 
 	public readonly swapManager: GammSwapManager;
-
+	public readonly layoutStore: LayoutStore;
 	protected readonly lpCurrencyRegistrar: LPCurrencyRegistrar;
 	protected readonly ibcCurrencyRegistrar: IBCCurrencyRegsitrar<ChainInfo>;
-
-	public readonly layoutStore: LayoutStore;
 
 	constructor() {
 		this.chainStore = new ChainStore(EmbedChainInfos, EmbedChainInfos[0].chainId);
