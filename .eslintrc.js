@@ -39,7 +39,7 @@ module.exports = {
 		'import/no-extraneous-dependencies': [
 			'error',
 			{
-				devDependencies: ['**/*.spec.ts', '**/*.spec.js', '**/webpack.config.js'],
+				devDependencies: ['**/*.spec.ts', '**/*.spec.js'],
 			},
 		],
 		'@typescript-eslint/no-var-requires': 'off',
