@@ -8,3 +8,6 @@ build
 yarn-error.log
 
 src/styles/index.scss
+
+.next
+out
