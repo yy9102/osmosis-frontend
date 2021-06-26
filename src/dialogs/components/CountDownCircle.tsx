@@ -74,14 +74,13 @@ export function CountDownCircle({
 	);
 }
 
-const FULL_DASH_ARRAY = 283;
-
 interface Params {
 	timeLimit: number;
 	timeLeft: number;
 }
 
 function calculateStrokeDashArray({ timeLimit, timeLeft }: Params) {
+	const FULL_DASH_ARRAY = 283;
 	const rawTimeFraction = timeLeft / timeLimit;
 	const timeFraction = rawTimeFraction - (1 / timeLimit) * (1 - rawTimeFraction);
 	return `${(timeFraction * FULL_DASH_ARRAY).toFixed(0)} ${FULL_DASH_ARRAY}`;
