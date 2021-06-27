@@ -1,17 +1,33 @@
+import React, { createContext, useContext, useMemo } from 'react';
 import { BehaviorSubject, timer } from 'rxjs';
 import { useEventCallback } from 'rxjs-hooks';
 import { mergeMap, switchMap, takeWhile } from 'rxjs/operators';
 
 export const DEFAULT_GLOBAL_TIME_LIMIT = 30_000;
-const timeLeft$ = new BehaviorSubject(0);
+
+export const SingletonTimerContext = createContext<{ startTimer: (e: number) => void; timeLeft: number } | null>(null);
+
+export function SingletonTimerProvider({ children }: { children: React.ReactNode }) {
+	const [startTimer, timeLeft] = useTimer();
+	return <SingletonTimerContext.Provider value={{ startTimer, timeLeft }}>{children}</SingletonTimerContext.Provider>;
+}
+
+export function useSingletonTimer() {
+	const context = useContext(SingletonTimerContext);
+	if (!context) {
+		throw new Error('You have forgot to use SingletonTimerProvider');
+	}
+	return context;
+}
 
 interface Params {
 	/** @description Interval in milliseconds */
 	interval?: number;
 }
 
-export function useSingletonTimer({ interval = 300 }: Params = {}) {
-	const [startTimer, timeLeft] = useEventCallback<number, number>(start$ => {
+function useTimer({ interval = 300 }: Params = {}) {
+	const timeLeft$ = useMemo(() => new BehaviorSubject(0), []);
+	return useEventCallback<number, number>(start$ => {
 		const timer$ = (timeLimit: number) =>
 			timer(0, interval).pipe(
 				mergeMap(() => {
@@ -25,6 +41,4 @@ export function useSingletonTimer({ interval = 300 }: Params = {}) {
 			);
 		return start$.pipe(switchMap(timeLimit => timer$(timeLimit)));
 	}, timeLeft$.getValue());
-
-	return [startTimer, timeLeft] as const;
 }

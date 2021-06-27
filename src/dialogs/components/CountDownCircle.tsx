@@ -1,5 +1,5 @@
 import React from 'react';
-import { DEFAULT_GLOBAL_TIME_LIMIT } from '../../hooks/useSingletonTimer';
+import { DEFAULT_GLOBAL_TIME_LIMIT } from '../../providers/SingletonTimerProvider';
 
 interface Props {
 	/** @description Time left in milliseconds */
