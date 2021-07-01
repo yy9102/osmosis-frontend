@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Bounce, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { RecoilRoot } from 'recoil';
 
 import 'tippy.js/dist/tippy.css';
 import { ToastProvider } from './components/common/toasts';
@@ -35,63 +36,65 @@ const queryClient = new QueryClient();
 const Router: FunctionComponent = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<StoreProvider>
-				<ToastProvider>
-					<Terms />
-					<div style={{ minWidth: '1280px' }} className="min-h-sidebar-minHeight h-screen bg-background z-0">
-						<BrowserRouter>
-							<Switch>
-								<Route exact path="/">
-									<RouteWrapper>
-										<MainPage />
-									</RouteWrapper>
-								</Route>
-								<Route exact path="/pools">
-									<RouteWrapper>
-										<PoolsPage />
-									</RouteWrapper>
-								</Route>
-								<Route path="/pool/:id">
-									<RouteWrapper>
-										<PoolPage />
-									</RouteWrapper>
-								</Route>
-								<Route exact path="/assets">
-									<RouteWrapper>
-										<AssetsPage />
-									</RouteWrapper>
-								</Route>
-								<Route exact path="/governance">
-									<RouteWrapper>
-										<GovernancePage />
-									</RouteWrapper>
-								</Route>
-								<Route exact path="/governance/:id">
-									<RouteWrapper>
-										<GovernanceDetailsPage />
-									</RouteWrapper>
-								</Route>
-								<Route exact path="/airdrop">
-									<RouteWrapper>
-										<AirdropPage />
-									</RouteWrapper>
-								</Route>
-								<Route exact path={'/bootstrap'}>
-									<RouteWrapper>
-										<BootstrapPage />
-									</RouteWrapper>
-								</Route>
-								<Route>
-									<RouteWrapper>
-										<NotFoundPage />
-									</RouteWrapper>
-								</Route>
-							</Switch>
-						</BrowserRouter>
-					</div>
-					<ToastContainer transition={Bounce} />
-				</ToastProvider>
-			</StoreProvider>
+			<RecoilRoot>
+				<StoreProvider>
+					<ToastProvider>
+						<Terms />
+						<div style={{ minWidth: '1280px' }} className="min-h-sidebar-minHeight h-screen bg-background z-0">
+							<BrowserRouter>
+								<Switch>
+									<Route exact path="/">
+										<RouteWrapper>
+											<MainPage />
+										</RouteWrapper>
+									</Route>
+									<Route exact path="/pools">
+										<RouteWrapper>
+											<PoolsPage />
+										</RouteWrapper>
+									</Route>
+									<Route path="/pool/:id">
+										<RouteWrapper>
+											<PoolPage />
+										</RouteWrapper>
+									</Route>
+									<Route exact path="/assets">
+										<RouteWrapper>
+											<AssetsPage />
+										</RouteWrapper>
+									</Route>
+									<Route exact path="/governance">
+										<RouteWrapper>
+											<GovernancePage />
+										</RouteWrapper>
+									</Route>
+									<Route exact path="/governance/:id">
+										<RouteWrapper>
+											<GovernanceDetailsPage />
+										</RouteWrapper>
+									</Route>
+									<Route exact path="/airdrop">
+										<RouteWrapper>
+											<AirdropPage />
+										</RouteWrapper>
+									</Route>
+									<Route exact path={'/bootstrap'}>
+										<RouteWrapper>
+											<BootstrapPage />
+										</RouteWrapper>
+									</Route>
+									<Route>
+										<RouteWrapper>
+											<NotFoundPage />
+										</RouteWrapper>
+									</Route>
+								</Switch>
+							</BrowserRouter>
+						</div>
+						<ToastContainer transition={Bounce} />
+					</ToastProvider>
+				</StoreProvider>
+			</RecoilRoot>
 		</QueryClientProvider>
 	);
 };
