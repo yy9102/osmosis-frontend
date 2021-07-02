@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { PoolsPerPage } from '../../config';
-import { pluckOsmosisChainInfo } from '../../utils/BETA/pluckOsmosisChainInfo';
+import { OSMOSIS_POOL_API_DOMAIN } from '../../constants/BETA/urls';
 
 interface PoolInfoRes {
 	/** Since it's pools in osmosis zone, this stays the same. */
@@ -51,17 +51,12 @@ interface Params {
 
 /** get all osmosis pool list */
 export async function getAllPoolList({ pageNum, poolsPerPage = PoolsPerPage }: Params = {}) {
-	/** get osmosis rest domain */
-	const osmosisRestDomain = pluckOsmosisChainInfo().rest;
-	if (!osmosisRestDomain) {
-		throw new Error('Osmosis chainInfo missing in known chain list');
-	}
 	let apiUrl: string;
 	if (pageNum != null) {
-		apiUrl = `${osmosisRestDomain}/osmosis/gamm/v1beta1/pools?pagination.offset=${(pageNum - 1) *
+		apiUrl = `${OSMOSIS_POOL_API_DOMAIN}/osmosis/gamm/v1beta1/pools?pagination.offset=${(pageNum - 1) *
 			poolsPerPage}&pagination.limit=${poolsPerPage}`;
 	} else {
-		apiUrl = `${osmosisRestDomain}/osmosis/gamm/v1beta1/pools`;
+		apiUrl = `${OSMOSIS_POOL_API_DOMAIN}/osmosis/gamm/v1beta1/pools`;
 	}
 	const res = await axios.get<{
 		pagination: { next_key: string; total: string };
