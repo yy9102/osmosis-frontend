@@ -1,4 +1,4 @@
-import { chainInfoList } from '../../constants/BETA/chainInfoList';
+import { chainInfoList } from '../../constants/BETA/chainInfo';
 
 export function pluckOsmosisChainInfo() {
 	const osmosisChainInfo = chainInfoList[0];
