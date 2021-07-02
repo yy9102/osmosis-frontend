@@ -3,7 +3,13 @@ import { ChainStore } from '@keplr-wallet/stores';
 
 export class LPCurrencyRegistrar<C extends ChainInfo = ChainInfo> {
 	constructor(protected readonly chainStore: ChainStore<C>) {
+		/** for each chainInfo run registerCurrencyRegistrar */
 		chainStore.addSetChainInfoHandler(chainInfoInner => {
+			/** this is like an event emitter, whenever registerCurrencyRegistrar is called with
+			 * callback (this.registerLPCurrency), it looks throughnknownDenoms in chainInfoInner
+			 * removes it from unknownCurrency if callback does not return undefined, and adds
+			 * it to registeredCurrencies (known) currency.
+			 * */
 			chainInfoInner.registerCurrencyRegistrar(this.registerLPCurrency);
 		});
 	}

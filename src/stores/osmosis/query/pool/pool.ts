@@ -21,6 +21,9 @@ export class ObservableQueryPoolInner extends ObservableChainQuery<Pool> {
 			denomsInPool.push(asset.token.denom);
 		}
 
+		/** TODO:Q chainInfo here is always OsmosisChainInfo why add tokens from
+		 * pool here?
+		 * */
 		chainInfo.addUnknownCurrencies(...denomsInPool);
 	}
 
