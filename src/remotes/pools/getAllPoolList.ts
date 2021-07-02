@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { PoolsPerPage } from '../../config';
-import { chainInfoList } from '../../constants/BETA/chainInfoList';
+import { pluckOsmosisChainInfo } from '../../utils/BETA/pluckOsmosisChainInfo';
 
 interface PoolInfoRes {
 	/** Since it's pools in osmosis zone, this stays the same. */
@@ -52,7 +52,7 @@ interface Params {
 /** get all osmosis pool list */
 export async function getAllPoolList({ pageNum, poolsPerPage = PoolsPerPage }: Params = {}) {
 	/** get osmosis rest domain */
-	const osmosisRestDomain = chainInfoList[0].rest;
+	const osmosisRestDomain = pluckOsmosisChainInfo().rest;
 	if (!osmosisRestDomain) {
 		throw new Error('Osmosis chainInfo missing in known chain list');
 	}
