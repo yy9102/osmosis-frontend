@@ -1,3 +1,3 @@
-import { EmbedChainInfos } from '../../config';
+import { pluckOsmosisChainInfo } from '../../utils/BETA/pluckOsmosisChainInfo';
 
-export const OSMO_CHAIN_ID = EmbedChainInfos[0].chainId;
+export const OSMO_CHAIN_ID = pluckOsmosisChainInfo().chainId;
