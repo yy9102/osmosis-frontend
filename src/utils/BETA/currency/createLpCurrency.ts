@@ -1,3 +1,6 @@
+/** coinMinimalDenom = XXX | ibc/XXX | gamm/pool/XXX
+ * eg) coinMinimalDenom = uosmo | ibc/ASDF | gamm/pool/XXX
+ * */
 export function createLpCurrency(coinMinimalDenom: string) {
 	if (coinMinimalDenom.startsWith('gamm/pool/')) {
 		// GAMM 토큰의 경우 bank metadata를 쿼리하지 않고 그냥 바로 currency를 등록한다.
