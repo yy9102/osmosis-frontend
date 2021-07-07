@@ -1,8 +1,10 @@
 export interface DenomTraceRes {
 	/** native coin where ibcToken came from eg) uatom */
 	base_denom: string;
-	/** contractAddress/osmosisChannelId eg) transfer/channel-0 */
-	path: string;
+	/** contractAddress/osmosisChannelId eg) transfer/channel-0,
+	 * If it is native coin such as OSMO or ION, it will be null.
+	 * */
+	path: string | null;
 }
 
 export interface DenomPath {
