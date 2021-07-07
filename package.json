@@ -55,6 +55,7 @@
 		"highcharts-react-official": "^3.0.0",
 		"history": "^5.0.0",
 		"http-server": "^0.12.3",
+		"immer": "^9.0.3",
 		"is-empty": "^1.2.0",
 		"lodash-es": "^4.17.21",
 		"mobx": "^6.1.7",
