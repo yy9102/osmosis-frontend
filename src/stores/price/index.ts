@@ -6,9 +6,12 @@ import { ObservableQueryPools } from '../osmosis/query/pools';
 import { Dec } from '@keplr-wallet/unit';
 
 export interface IntermidiateRoute {
+	/** pool:uosmo */
 	readonly alternativeCoinId: string;
 	readonly poolId: string;
+	/** spotPrice of coin you want to calculate in usd but not in coingecko. eg) uosmo */
 	readonly spotPriceSourceDenom: string;
+	/** ibc/uatom in where uatom in hash */
 	readonly spotPriceDestDenom: string;
 	readonly destCoinId: string;
 }
@@ -49,8 +52,16 @@ export class PoolIntermediatePriceStore extends CoinGeckoPriceStore {
 		return result;
 	}
 
+	/** if coinId is pool:XXX use route to getPrice */
 	getPrice(coinId: string, vsCurrency: string): number | undefined {
 		const routes = this.intermidiateRoutesMap;
+		/** route = {
+			alternativeCoinId: 'pool:uosmo',
+			poolId: '1',
+			spotPriceSourceDenom: 'uosmo',
+			spotPriceDestDenom: DenomHelper.ibcDenom([{ portId: 'transfer', channelId: 'channel-0' }], 'uatom'),
+			destCoinId: 'cosmos',
+		} */
 		const route = routes.get(coinId);
 		if (route) {
 			const pool = this.queryPool.getPool(route.poolId);
