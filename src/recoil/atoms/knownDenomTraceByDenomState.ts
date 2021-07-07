@@ -6,5 +6,5 @@ import { DenomTraceRes } from '../../models/BETA/denom';
  * */
 export const knownDenomTraceByDenomState = atom({
 	key: 'knownDenomTraceByDenomState',
-	default: {} as { [ibcDenom: string]: DenomTraceRes | null | undefined },
+	default: {} as { [denom: string]: DenomTraceRes | null | undefined },
 });
