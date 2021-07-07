@@ -1,4 +1,5 @@
 import { ChainIdHelper } from '@keplr-wallet/cosmos';
+import produce from 'immer';
 import { atom, DefaultValue, selectorFamily } from 'recoil';
 import { chainInfoByIdentifier } from '../../constants/BETA/chainInfo';
 import { ChainInfoWithExplorer } from '../../models/BETA/chain/chainInfo';
@@ -8,8 +9,8 @@ const chainInfoMapState = atom({
 	default: chainInfoByIdentifier,
 });
 
-export const chainInfoByIdState = selectorFamily<ChainInfoWithExplorer, string>({
-	key: 'chainInfoByIdState',
+export const chainInfoByChainIdState = selectorFamily<ChainInfoWithExplorer, string>({
+	key: 'chainInfoByChainIdState',
 
 	get: (chainId: string) => ({ get }) => {
 		const { identifier } = ChainIdHelper.parse(chainId);
@@ -17,13 +18,16 @@ export const chainInfoByIdState = selectorFamily<ChainInfoWithExplorer, string>(
 	},
 
 	set: (chainId: string) => ({ set }, newChainInfo) => {
-		return set(chainInfoMapState, prevChainInfoMapState => {
-			/** handle for reset */
-			if (newChainInfo instanceof DefaultValue) {
-				return chainInfoByIdentifier;
-			}
-			const { identifier } = ChainIdHelper.parse(chainId);
-			return { ...prevChainInfoMapState, [identifier]: newChainInfo };
-		});
+		return set(
+			chainInfoMapState,
+			produce(prevChainInfoMapState => {
+				/** handle for reset */
+				if (newChainInfo instanceof DefaultValue) {
+					return chainInfoByIdentifier;
+				}
+				const { identifier } = ChainIdHelper.parse(chainId);
+				prevChainInfoMapState[identifier] = newChainInfo;
+			})
+		);
 	},
 });
