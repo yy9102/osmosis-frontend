@@ -1,12 +1,6 @@
 import axios from 'axios';
 import { OSMOSIS_CHAIN_API_DOMAIN } from '../../constants/BETA/urls';
-
-interface DenomTraceRes {
-	/** native coin, eg) uatom */
-	base_denom: string;
-	/** contractAddress/osmosisChannelId eg) transfer/channel-0 */
-	path: string;
-}
+import { DenomTraceRes } from '../../models/BETA/denom';
 
 interface Params {
 	/** can be ibcToken eg) ibc/XXX, or  eg) uatom */
