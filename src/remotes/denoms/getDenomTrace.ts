@@ -10,6 +10,9 @@ interface Params {
 }
 
 export async function getDenomTrace({ ibcDenom, restDomain = OSMOSIS_CHAIN_API_DOMAIN }: Params) {
+	if (ibcDenom?.toUpperCase()?.startsWith('GAMM')) {
+		return { base_denom: ibcDenom, path: 'native' };
+	}
 	/** if does not start with ibc/ it will error out so just return null */
 	if (!ibcDenom.startsWith('ibc/')) {
 		return null;

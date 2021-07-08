@@ -1,8 +1,9 @@
 import produce from 'immer';
 import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { knownDenomTraceByDenomState } from '../../../recoil/atoms/knownDenomTraceByDenomState';
+import { knownDenomCoreInfoMapState } from '../../../recoil/atoms/knownDenomCoreInfoMapState';
 import { getDenomTrace } from '../../../remotes/denoms/getDenomTrace';
+import { toSourceChannelIdPortId } from '../../../utils/BETA/denom/toSourceChannelIdPortId';
 
 interface Params {
 	ibcDenom?: string;
@@ -11,7 +12,7 @@ interface Params {
 }
 
 export function useDenomTrace({ ibcDenom, restDomain }: Params) {
-	const [knownDenomTraceByDenom, setKnownDenomTraceByDenom] = useRecoilState(knownDenomTraceByDenomState);
+	const [knownDenomCoreInfoMap, setKnownDenomCoreInfoMap] = useRecoilState(knownDenomCoreInfoMapState);
 
 	const queryData = useQuery(
 		['denomTrace', restDomain, ibcDenom],
@@ -19,18 +20,32 @@ export function useDenomTrace({ ibcDenom, restDomain }: Params) {
 			if (ibcDenom == null) {
 				return null;
 			}
+			if (knownDenomCoreInfoMap[ibcDenom] != null) {
+				return knownDenomCoreInfoMap[ibcDenom];
+			}
 			const denomTrace = await getDenomTrace({ ibcDenom, restDomain });
-			setKnownDenomTraceByDenom(
+			if (denomTrace == null) {
+				console.error(`Unknown: ${ibcDenom}`);
+				return null;
+			}
+			setKnownDenomCoreInfoMap(
 				produce(prevKnownDenomTraceByDenom => {
-					prevKnownDenomTraceByDenom[ibcDenom] = denomTrace;
+					const { base_denom, path } = denomTrace;
+					const { sourceChannelId, portId } = toSourceChannelIdPortId({ path });
+					prevKnownDenomTraceByDenom[ibcDenom] = {
+						denom: ibcDenom,
+						originalDenom: base_denom,
+						sourceChannelId,
+						portId,
+					};
 				})
 			);
 		},
 		{
-			enabled: ibcDenom != null && knownDenomTraceByDenom[ibcDenom] == null,
+			enabled: ibcDenom != null && knownDenomCoreInfoMap[ibcDenom] == null,
 			retry: 1,
 		}
 	);
 
-	return { ...queryData, data: ibcDenom != null ? knownDenomTraceByDenom?.[ibcDenom] : null };
+	return { ...queryData, data: ibcDenom != null ? knownDenomCoreInfoMap?.[ibcDenom] : null };
 }
