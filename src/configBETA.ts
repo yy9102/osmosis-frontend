@@ -1,4 +1,4 @@
-export interface DenomCoreInfo {
+export interface DenomInfo {
 	/** denom seen at osmosis zone. eg) uosmo for native, ibc/ASDF for ibc transfer */
 	denom: string;
 	/** denom seen at its original zone eg) for cosmos: uatom */
@@ -15,7 +15,7 @@ export interface DenomCoreInfo {
 	destChannelId?: string | 'native';
 }
 
-export const knownDenomCoreInfoMap: { [denom: string]: DenomCoreInfo } = {
+export const denomInfoMap: { [denom: string]: DenomInfo } = {
 	uosmo: {
 		denom: 'uosmo',
 		originalDenom: 'uosmo',
@@ -95,4 +95,13 @@ export const knownDenomCoreInfoMap: { [denom: string]: DenomCoreInfo } = {
 		sourceChannelId: 'native',
 		portId: 'native',
 	},
+};
+
+export const coinGeckoIdMap: { [originalDenom: string]: string } = {
+	uakt: 'akash-network',
+	uatom: 'cosmos',
+	basecro: 'crypto-com-chain',
+	uiris: 'iris-network',
+	uxprt: 'persistence',
+	udvpn: 'sentinel',
 };
