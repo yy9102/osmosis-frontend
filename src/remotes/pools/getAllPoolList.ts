@@ -17,7 +17,7 @@ export async function getAllPoolList({ pageNum, poolsPerPage = PoolsPerPage }: P
 		apiUrl = `${OSMOSIS_POOL_API_DOMAIN}/osmosis/gamm/v1beta1/pools?pagination.offset=${(pageNum - 1) *
 			poolsPerPage}&pagination.limit=${poolsPerPage}`;
 	} else {
-		apiUrl = `${OSMOSIS_POOL_API_DOMAIN}/osmosis/gamm/v1beta1/pools??pagination.limit=200`;
+		apiUrl = `${OSMOSIS_POOL_API_DOMAIN}/osmosis/gamm/v1beta1/pools?pagination.limit=200`;
 	}
 	const res = await axios.get<{
 		pagination: { next_key: string; total: string };
