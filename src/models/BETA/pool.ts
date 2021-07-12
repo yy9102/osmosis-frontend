@@ -9,20 +9,18 @@ export interface PoolInfoRes {
 	 * eg) 24h
 	 * */
 	future_pool_governor: string;
-	/** poolId */
 	id: string;
-	/** token.denom in coinMinimalDenom. eg) uatom, or ibc/27394FB092D2ECC... TODO:Q what is poolAsset.weight */
 	poolAssets: Array<{ token: { denom: string; amount: string }; weight: string }>;
 	poolParams: {
-		/** 18 decimal exitFee */
-		exitFee: '0.000000000000000000';
+		/** 18 decimal exitFee. eg) 0.00000000010*/
+		exitFee: string;
 		/** for LBP pool ratio change rate */
 		smoothWeightChangeParams: null;
-		/** 18 decimal swap fee */
-		swapFee: '0.005000000000000000';
+		/** 18 decimal swap fee, in ratio */
+		swapFee: string;
 	};
 	totalShares: {
-		/** TODO:Q what is totalShares amount?
+		/** amount of total GAMM tokens
 		 * eg) 46831178663450220730063766
 		 * */
 		amount: string;
@@ -32,8 +30,7 @@ export interface PoolInfoRes {
 		denom: string;
 	};
 	/**
-	 * TODO:Q what is totalWeight?
-	 * eg) 1073741824000000;
+	 * addition of weights of poolAssets
 	 * */
 	totalWeight: string;
 }
