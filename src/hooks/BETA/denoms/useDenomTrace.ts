@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { knownDenomCoreInfoMapState } from '../../../recoil/atoms/knownDenomCoreInfoMapState';
+import { denomInfoMapState } from '../../../recoil/atoms/denomInfoMapState';
 import { getDenomTrace } from '../../../remotes/denoms/getDenomTrace';
 import { toSourceChannelIdPortId } from '../../../utils/BETA/denom/toSourceChannelIdPortId';
 
@@ -12,7 +12,7 @@ interface Params {
 }
 
 export function useDenomTrace({ ibcDenom, restDomain }: Params) {
-	const [knownDenomCoreInfoMap, setKnownDenomCoreInfoMap] = useRecoilState(knownDenomCoreInfoMapState);
+	const [knownDenomCoreInfoMap, setKnownDenomCoreInfoMap] = useRecoilState(denomInfoMapState);
 
 	const queryData = useQuery(
 		['denomTrace', restDomain, ibcDenom],

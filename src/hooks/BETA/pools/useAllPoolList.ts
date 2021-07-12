@@ -5,9 +5,14 @@ interface Params {
 	pageNum?: number;
 	poolsPerPage?: number;
 }
+
 /** All pools in osmosis chain */
-export function useAllPoolList({ pageNum, poolsPerPage }: Params = {}) {
-	return useQuery(['osmosis', pageNum, poolsPerPage], () => {
-		return getAllPoolList({ pageNum, poolsPerPage });
-	});
+export function useAllPoolList({ pageNum, poolsPerPage }: Params = {}, options?: { enabled: boolean }) {
+	return useQuery(
+		['osmosis', pageNum, poolsPerPage],
+		() => {
+			return getAllPoolList({ pageNum, poolsPerPage });
+		},
+		options
+	);
 }

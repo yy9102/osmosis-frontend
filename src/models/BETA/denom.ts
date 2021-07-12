@@ -17,4 +17,4 @@ export interface DenomPath {
 export type DenomType = 'native' | 'ibc';
 
 /** contract address is '' if it is native denom */
-export type ContractAddress = 'transfer' | '';
+export type ContractAddress = 'transfer' | 'native';

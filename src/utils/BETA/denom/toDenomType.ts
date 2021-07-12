@@ -20,6 +20,6 @@ export function toDenomType({ denom }: Params) {
 	}
 	return {
 		type: (denomParts.length === 3 ? denomParts[0] : 'native') as DenomType,
-		contactAddress: (denomParts.length === 3 ? denomParts[1] : '') as ContractAddress,
+		contactAddress: (denomParts.length === 3 ? denomParts[1] : 'native') as ContractAddress,
 	} as const;
 }
