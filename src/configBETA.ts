@@ -1,7 +1,7 @@
 export interface DenomCoreInfo {
 	/** denom seen at osmosis zone. eg) uosmo for native, ibc/ASDF for ibc transfer */
 	denom: string;
-	/** denom seen at its original zone eg) uatom */
+	/** denom seen at its original zone eg) for cosmos: uatom */
 	originalDenom: string;
 	/** osmosis chain's channel id denom came into. native if it's osmosis native coin*/
 	sourceChannelId: string | 'native';
