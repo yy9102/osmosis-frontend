@@ -1,14 +1,16 @@
 /** coinMinimalDenom = XXX | ibc/XXX | gamm/pool/XXX
  * eg) coinMinimalDenom = uosmo | ibc/ASDF | gamm/pool/XXX
  * */
-export function createLpCurrency(coinMinimalDenom: string) {
-	if (coinMinimalDenom.startsWith('gamm/pool/')) {
+import { Currency } from '../../../models/BETA/currency';
+
+export function createLpCurrency(denom: string) {
+	if (denom.startsWith('gamm/pool/')) {
 		// GAMM 토큰의 경우 bank metadata를 쿼리하지 않고 그냥 바로 currency를 등록한다.
-		const poolId = coinMinimalDenom.replace('gamm/pool/', '');
+		const poolId = denom.replace('gamm/pool/', '');
 		return {
-			coinMinimalDenom,
-			coinDecimals: 18,
-			coinDenom: `GAMM-${poolId}`,
-		};
+			denom,
+			symbol: `GAMM-${poolId}`,
+			dp: 18,
+		} as Currency;
 	}
 }

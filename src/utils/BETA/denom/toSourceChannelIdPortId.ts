@@ -10,6 +10,7 @@ export function toSourceChannelIdPortId({ path }: Params) {
 			portId: 'native',
 		} as const;
 	}
+	/** TODO: handle for ibc-ibc-transfers */
 	const [portId, sourceChannelId] = path.split('/') as ['transfer', string];
 	return {
 		sourceChannelId,
