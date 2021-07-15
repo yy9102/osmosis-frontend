@@ -1,3 +1,9 @@
+import { NativeCurrency } from './models/BETA/currency';
+
+/**
+ * Pool list returns ibc denoms, with denomTrace api, ibc denom can be traced to find
+ * originalDenom, sourceChannelId, and portId. DenomInfo is updated everytime new denomTrace is found.
+ * */
 export interface DenomInfo {
 	/** denom seen at osmosis zone. eg) uosmo for native, ibc/ASDF for ibc transfer */
 	denom: string;
@@ -10,7 +16,7 @@ export interface DenomInfo {
 
 	symbol?: string;
 	/** dp: allowed decimalPlace */
-	dp?: number;
+	decimals?: number;
 	/** original chainId of denom it came from, when querying denom trace response does not have chainId hence optional */
 	chainId?: string;
 	/** original chain's channel id denom flowed out of. native if it's osmosis native coin. when querying denom trace
@@ -26,7 +32,7 @@ export const denomInfoMap: { [denom: string]: DenomInfo } = {
 		portId: 'native',
 
 		symbol: 'OSMO',
-		dp: 6,
+		decimals: 6,
 		chainId: 'osmosis-1',
 		destChannelId: 'native',
 	},
@@ -37,7 +43,7 @@ export const denomInfoMap: { [denom: string]: DenomInfo } = {
 		portId: 'native',
 
 		symbol: 'ION',
-		dp: 6,
+		decimals: 6,
 		chainId: 'osmosis-1',
 		destChannelId: 'native',
 	},
@@ -48,7 +54,7 @@ export const denomInfoMap: { [denom: string]: DenomInfo } = {
 		portId: 'transfer',
 
 		symbol: 'ATOM',
-		dp: 6,
+		decimals: 6,
 		chainId: 'cosmoshub-4',
 		destChannelId: 'channel-141',
 	},
@@ -59,7 +65,7 @@ export const denomInfoMap: { [denom: string]: DenomInfo } = {
 		portId: 'transfer',
 
 		symbol: 'AKT',
-		dp: 6,
+		decimals: 6,
 		chainId: 'akashnet-2',
 		destChannelId: 'channel-9',
 	},
@@ -70,7 +76,7 @@ export const denomInfoMap: { [denom: string]: DenomInfo } = {
 		portId: 'transfer',
 
 		symbol: 'REGEN',
-		dp: 6,
+		decimals: 6,
 		chainId: 'regen-1',
 		destChannelId: 'channel-1',
 	},
@@ -81,7 +87,7 @@ export const denomInfoMap: { [denom: string]: DenomInfo } = {
 		portId: 'transfer',
 
 		symbol: 'DVPN',
-		dp: 6,
+		decimals: 6,
 		chainId: 'sentinelhub-2',
 		destChannelId: 'channel-0',
 	},
@@ -92,7 +98,7 @@ export const denomInfoMap: { [denom: string]: DenomInfo } = {
 		portId: 'transfer',
 
 		symbol: 'XPRT',
-		dp: 6,
+		decimals: 6,
 		chainId: 'core-1',
 		destChannelId: 'channel-6',
 	},
@@ -103,7 +109,7 @@ export const denomInfoMap: { [denom: string]: DenomInfo } = {
 		portId: 'transfer',
 
 		symbol: 'IRIS',
-		dp: 6,
+		decimals: 6,
 		chainId: 'irishub-1',
 		destChannelId: 'channel-3',
 	},
@@ -114,7 +120,7 @@ export const denomInfoMap: { [denom: string]: DenomInfo } = {
 		portId: 'transfer',
 
 		symbol: 'CRO',
-		dp: 8,
+		decimals: 8,
 		chainId: 'crypto-org-chain-mainnet-1',
 		destChannelId: 'channel-10',
 	},
@@ -126,7 +132,7 @@ export const denomInfoMap: { [denom: string]: DenomInfo } = {
 		portId: 'native',
 
 		symbol: 'GAMM-41',
-		dp: 18,
+		decimals: 18,
 		chainId: 'osmosis-1',
 		destChannelId: 'native',
 	},
@@ -140,3 +146,22 @@ export const coinGeckoIdMap: { [originalDenom: string]: string } = {
 	uxprt: 'persistence',
 	udvpn: 'sentinel',
 };
+
+/** Chain info format highly influenced by web3modal and metamask */
+export const chainInfoListBeta = [
+	{
+		chainId: 'dai-100',
+		chainName: 'xDAI Chain Ropsten',
+		networkUrl: 'https://dai.poa.network',
+		nativeCurrency: {
+			symbol: 'ETH',
+			name: 'Ethereum',
+			originalDenom: 'eth',
+			decimals: 18,
+		} as NativeCurrency,
+		currencies: [
+			{ symbol: 'OSMO', name: 'Osmosis', originalDenom: 'uosmo', decimals: 6 },
+			{ symbol: 'ION', name: 'Ion', originalDenom: 'uion', decimals: 6 },
+		] as NativeCurrency[],
+	},
+];
