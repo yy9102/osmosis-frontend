@@ -6,7 +6,7 @@ Frontend React app for Osmosis AMM.
 
 ## Siasky.net portal URL:
 ```
-https://400fj3n8pp4br2dt58n3cktm674e7381pduvht4211p4af64ban3ui0.siasky.net/
+https://4005lfn2nhuq58itut8tgaejrfdjc5vj6sgndvbds41e586epnkm0uo.siasky.net/
 ```
 
 ## Install global dependencies
